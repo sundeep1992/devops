@@ -1,0 +1,43 @@
+pipeline {
+        agent any
+                stages {
+                        stage('one'){
+                                steps{
+                                       echo 'Hi,this is kumar from SAP team
+                                }
+                   }
+                        stage('two'){
+                                steps {
+                                        input('do yo want a proceed?')
+                                }
+                   }
+                       stage('three') {
+                               when {
+                                      not {
+                                            branch "matser"
+                                         }
+                               }
+                               steps {
+                                       echo "Hello"
+                               }
+                   }
+stage('four') {
+               parllel {
+                     stage('unit test') {
+                                         steps{
+                                              echo "Running the unit test...."
+                                          }
+                       }
+                       stage('integration test') {
+                                          agent {
+                                                 docker {
+                                                         resuseNode false
+                                                         image 'ubuntu'
+                                                 }
+                                           }
+                                           steps {
+                                                  echo 'Running the integration test..'
+                                           }
+                       }
+                }
+                             
